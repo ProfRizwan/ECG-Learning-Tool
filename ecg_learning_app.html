@@ -1,0 +1,481 @@
+```html id="mxmhqr"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ECG Learning Hub</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+        background:#f1f5f9;
+        color:#1e293b;
+    }
+
+    header{
+        background:white;
+        padding:16px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+        position:sticky;
+        top:0;
+        z-index:100;
+    }
+
+    .header-inner{
+        max-width:1200px;
+        margin:auto;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+    }
+
+    .title{
+        font-size:24px;
+        font-weight:bold;
+        color:#2563eb;
+    }
+
+    .score-box{
+        background:#dbeafe;
+        color:#1d4ed8;
+        padding:10px 18px;
+        border-radius:12px;
+        font-weight:bold;
+    }
+
+    .container{
+        max-width:1200px;
+        margin:auto;
+        padding:20px;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:24px;
+    }
+
+    .card{
+        background:white;
+        border-radius:20px;
+        padding:20px;
+        box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .section-title{
+        font-size:22px;
+        font-weight:bold;
+        margin-bottom:14px;
+    }
+
+    .clinical-text{
+        line-height:1.7;
+        font-size:18px;
+    }
+
+    .ecg-image{
+        width:100%;
+        border-radius:16px;
+        margin-top:15px;
+        border:1px solid #cbd5e1;
+    }
+
+    .option{
+        border:2px solid #cbd5e1;
+        border-radius:14px;
+        padding:14px;
+        margin-bottom:14px;
+        cursor:pointer;
+        transition:0.2s;
+        font-size:16px;
+        background:white;
+    }
+
+    .option:hover{
+        background:#eff6ff;
+        border-color:#60a5fa;
+    }
+
+    .correct{
+        background:#dcfce7 !important;
+        border-color:#22c55e !important;
+        color:#166534;
+    }
+
+    .wrong{
+        background:#fee2e2 !important;
+        border-color:#ef4444 !important;
+        color:#991b1b;
+    }
+
+    .disabled{
+        pointer-events:none;
+    }
+
+    .explanation{
+        margin-top:20px;
+        padding:16px;
+        border-radius:14px;
+        background:#f8fafc;
+        border-left:6px solid #2563eb;
+        display:none;
+    }
+
+    .next-btn{
+        margin-top:20px;
+        width:100%;
+        padding:14px;
+        border:none;
+        border-radius:14px;
+        background:#2563eb;
+        color:white;
+        font-size:16px;
+        font-weight:bold;
+        cursor:pointer;
+    }
+
+    .next-btn:hover{
+        background:#1d4ed8;
+    }
+
+    .progress{
+        margin-top:10px;
+        height:10px;
+        background:#cbd5e1;
+        border-radius:999px;
+        overflow:hidden;
+    }
+
+    .progress-bar{
+        height:100%;
+        width:0%;
+        background:#2563eb;
+    }
+
+    .result-screen{
+        display:none;
+        text-align:center;
+        padding:40px;
+    }
+
+    .result-score{
+        font-size:64px;
+        color:#2563eb;
+        margin:20px 0;
+        font-weight:bold;
+    }
+
+    @media(max-width:900px){
+        .container{
+            grid-template-columns:1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <div class="title">ECG Learning Hub</div>
+        <div class="score-box">
+            Score: <span id="score">0</span>
+        </div>
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+</header>
+
+<div class="container" id="quizContainer">
+
+    <div class="card">
+        <div class="section-title">Clinical Scenario</div>
+
+        <div class="clinical-text" id="clinicalStem"></div>
+
+        <img id="ecgImage"
+             class="ecg-image"
+             src=""
+             alt="ECG">
+    </div>
+
+    <div class="card">
+
+        <div class="section-title">
+            What is the diagnosis?
+        </div>
+
+        <div id="optionsContainer"></div>
+
+        <div class="explanation" id="explanationBox">
+            <h3 style="margin-bottom:10px;">Teaching Point</h3>
+
+            <div id="explanationText"></div>
+
+            <button class="next-btn" onclick="nextQuestion()">
+                Next Question
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="result-screen card" id="resultScreen">
+
+    <h1>Quiz Completed</h1>
+
+    <div class="result-score">
+        <span id="finalScore"></span>
+    </div>
+
+    <p style="font-size:20px; margin-bottom:20px;">
+        Great job revising ECG interpretation.
+    </p>
+
+    <button class="next-btn" onclick="restartQuiz()">
+        Restart Quiz
+    </button>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+    clinicalStem:
+    "A 70-year-old hypertensive patient presents with palpitations. Pulse is irregularly irregular.",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Atrial_fibrillation_%28lead_II%29.svg/1024px-Atrial_fibrillation_%28lead_II%29.svg.png",
+
+    options:[
+        "SVT",
+        "Atrial Fibrillation",
+        "Atrial Flutter",
+        "Sinus Tachycardia"
+    ],
+
+    answer:1,
+
+    explanation:
+    "Atrial fibrillation is characterized by absent P waves and an irregularly irregular ventricular rhythm."
+},
+
+{
+    clinicalStem:
+    "A patient develops sudden collapse with no palpable pulse. ECG shows chaotic electrical activity.",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Vfib.png/800px-Vfib.png",
+
+    options:[
+        "Ventricular Tachycardia",
+        "Asystole",
+        "Ventricular Fibrillation",
+        "SVT"
+    ],
+
+    answer:2,
+
+    explanation:
+    "Ventricular fibrillation is a shockable rhythm with chaotic electrical activity and no organized QRS complexes."
+},
+
+{
+    clinicalStem:
+    "A post-MI patient presents with broad complex tachycardia and hypotension.",
+
+    image:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ventricular_tachycardia.png/1024px-Ventricular_tachycardia.png",
+
+    options:[
+        "SVT",
+        "VT",
+        "AF",
+        "Sinus Tachycardia"
+    ],
+
+    answer:1,
+
+    explanation:
+    "Broad complex regular tachycardia in a patient with ischemic heart disease should be considered VT."
+},
+
+{
+    clinicalStem:
+    "A young female presents with sudden palpitations. ECG shows narrow complex regular tachycardia.",
+
+    image:
+    "https://litfl.com/wp-content/uploads/2018/08/SVT-ECG-Strip.png",
+
+    options:[
+        "SVT",
+        "AF",
+        "VT",
+        "Sinus Bradycardia"
+    ],
+
+    answer:0,
+
+    explanation:
+    "SVT typically presents as a rapid narrow complex regular tachycardia."
+},
+
+{
+    clinicalStem:
+    "ECG shows diffuse ST elevation with PR depression. Patient complains of pleuritic chest pain.",
+
+    image:
+    "https://litfl.com/wp-content/uploads/2018/08/Pericarditis-ECG-2.jpg",
+
+    options:[
+        "Anterior STEMI",
+        "Pericarditis",
+        "Hyperkalemia",
+        "LVH"
+    ],
+
+    answer:1,
+
+    explanation:
+    "Pericarditis causes diffuse concave ST elevation with PR depression."
+}
+
+];
+
+// ===================================
+// APP LOGIC
+// ===================================
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+const clinicalStem = document.getElementById("clinicalStem");
+const ecgImage = document.getElementById("ecgImage");
+const optionsContainer = document.getElementById("optionsContainer");
+const explanationBox = document.getElementById("explanationBox");
+const explanationText = document.getElementById("explanationText");
+const scoreElement = document.getElementById("score");
+const progressBar = document.getElementById("progressBar");
+
+function loadQuestion(){
+
+    answered = false;
+
+    explanationBox.style.display = "none";
+
+    const q = questions[currentQuestion];
+
+    clinicalStem.innerText = q.clinicalStem;
+
+    ecgImage.src = q.image;
+
+    optionsContainer.innerHTML = "";
+
+    q.options.forEach((option,index)=>{
+
+        const btn = document.createElement("div");
+
+        btn.classList.add("option");
+
+        btn.innerText = option;
+
+        btn.onclick = ()=>selectAnswer(btn,index);
+
+        optionsContainer.appendChild(btn);
+    });
+
+    updateProgress();
+}
+
+function selectAnswer(button,index){
+
+    if(answered) return;
+
+    answered = true;
+
+    const q = questions[currentQuestion];
+
+    const options = document.querySelectorAll(".option");
+
+    options.forEach(opt=>opt.classList.add("disabled"));
+
+    if(index === q.answer){
+
+        button.classList.add("correct");
+
+        score++;
+
+        scoreElement.innerText = score;
+
+    }else{
+
+        button.classList.add("wrong");
+
+        options[q.answer].classList.add("correct");
+    }
+
+    explanationText.innerText = q.explanation;
+
+    explanationBox.style.display = "block";
+}
+
+function nextQuestion(){
+
+    currentQuestion++;
+
+    if(currentQuestion >= questions.length){
+
+        document.getElementById("quizContainer").style.display = "none";
+
+        document.getElementById("resultScreen").style.display = "block";
+
+        document.getElementById("finalScore").innerText =
+        score + " / " + questions.length;
+
+        return;
+    }
+
+    loadQuestion();
+}
+
+function restartQuiz(){
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    scoreElement.innerText = 0;
+
+    document.getElementById("quizContainer").style.display = "grid";
+
+    document.getElementById("resultScreen").style.display = "none";
+
+    loadQuestion();
+}
+
+function updateProgress(){
+
+    const progress =
+    ((currentQuestion)/questions.length)*100;
+
+    progressBar.style.width = progress + "%";
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
+```
