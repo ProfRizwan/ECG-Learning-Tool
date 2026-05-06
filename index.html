@@ -251,104 +251,205 @@
 const questions = [
 
 {
-    clinicalStem:
-    "A 70-year-old hypertensive patient presents with palpitations. Pulse is irregularly irregular.",
+clinicalStem:
+"A 72-year-old hypertensive man presents with palpitations and dizziness. Pulse is irregularly irregular.",
 
-    image:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Atrial_fibrillation_%28lead_II%29.svg/1024px-Atrial_fibrillation_%28lead_II%29.svg.png",
+image:
+"https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Atrial_fibrillation_%28lead_II%29.svg/1024px-Atrial_fibrillation_%28lead_II%29.svg.png",
 
-    options:[
-        "SVT",
-        "Atrial Fibrillation",
-        "Atrial Flutter",
-        "Sinus Tachycardia"
-    ],
+options:[
+"Atrial Flutter",
+"Atrial Fibrillation",
+"SVT",
+"Sinus Tachycardia"
+],
 
-    answer:1,
+answer:1,
 
-    explanation:
-    "Atrial fibrillation is characterized by absent P waves and an irregularly irregular ventricular rhythm."
+explanation:
+"AF shows absent P waves and an irregularly irregular ventricular rhythm."
 },
 
 {
-    clinicalStem:
-    "A patient develops sudden collapse with no palpable pulse. ECG shows chaotic electrical activity.",
+clinicalStem:
+"A patient develops sudden collapse with no pulse. ECG shows chaotic electrical activity.",
 
-    image:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Vfib.png/800px-Vfib.png",
+image:
+"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Vfib.png/800px-Vfib.png",
 
-    options:[
-        "Ventricular Tachycardia",
-        "Asystole",
-        "Ventricular Fibrillation",
-        "SVT"
-    ],
+options:[
+"VT",
+"Asystole",
+"Ventricular Fibrillation",
+"SVT"
+],
 
-    answer:2,
+answer:2,
 
-    explanation:
-    "Ventricular fibrillation is a shockable rhythm with chaotic electrical activity and no organized QRS complexes."
+explanation:
+"VF is characterized by chaotic electrical activity without organized QRS complexes."
 },
 
 {
-    clinicalStem:
-    "A post-MI patient presents with broad complex tachycardia and hypotension.",
+clinicalStem:
+"A post-MI patient presents with broad complex tachycardia and hypotension.",
 
-    image:
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ventricular_tachycardia.png/1024px-Ventricular_tachycardia.png",
+image:
+"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ventricular_tachycardia.png/1024px-Ventricular_tachycardia.png",
 
-    options:[
-        "SVT",
-        "VT",
-        "AF",
-        "Sinus Tachycardia"
-    ],
+options:[
+"SVT",
+"VT",
+"AF",
+"Sinus Tachycardia"
+],
 
-    answer:1,
+answer:1,
 
-    explanation:
-    "Broad complex regular tachycardia in a patient with ischemic heart disease should be considered VT."
+explanation:
+"Wide complex tachycardia in ischemic heart disease is VT until proven otherwise."
 },
 
 {
-    clinicalStem:
-    "A young female presents with sudden palpitations. ECG shows narrow complex regular tachycardia.",
+clinicalStem:
+"A patient has diffuse ST elevation with PR depression and pleuritic chest pain.",
 
-    image:
-    "https://litfl.com/wp-content/uploads/2018/08/SVT-ECG-Strip.png",
+image:
+"https://litfl.com/wp-content/uploads/2018/08/Pericarditis-ECG-2.jpg",
 
-    options:[
-        "SVT",
-        "AF",
-        "VT",
-        "Sinus Bradycardia"
-    ],
+options:[
+"Anterior STEMI",
+"Pericarditis",
+"Hyperkalemia",
+"LVH"
+],
 
-    answer:0,
+answer:1,
 
-    explanation:
-    "SVT typically presents as a rapid narrow complex regular tachycardia."
+explanation:
+"Pericarditis classically causes diffuse concave ST elevation and PR depression."
 },
 
 {
-    clinicalStem:
-    "ECG shows diffuse ST elevation with PR depression. Patient complains of pleuritic chest pain.",
+clinicalStem:
+"ECG shows tall peaked T waves and widened QRS complexes in a dialysis patient.",
 
-    image:
-    "https://litfl.com/wp-content/uploads/2018/08/Pericarditis-ECG-2.jpg",
+image:
+"https://litfl.com/wp-content/uploads/2018/08/Hyperkalaemia-ECG-2.jpg",
 
-    options:[
-        "Anterior STEMI",
-        "Pericarditis",
-        "Hyperkalemia",
-        "LVH"
-    ],
+options:[
+"Hypokalemia",
+"Hyperkalemia",
+"Pericarditis",
+"LVH"
+],
 
-    answer:1,
+answer:1,
 
-    explanation:
-    "Pericarditis causes diffuse concave ST elevation with PR depression."
+explanation:
+"Hyperkalemia causes peaked T waves and progressive QRS widening."
+},
+
+{
+clinicalStem:
+"A patient on diuretics develops weakness. ECG shows U waves and flattened T waves.",
+
+image:
+"https://litfl.com/wp-content/uploads/2018/08/Hypokalaemia-ECG-2.jpg",
+
+options:[
+"Hyperkalemia",
+"Hypokalemia",
+"AF",
+"VT"
+],
+
+answer:1,
+
+explanation:
+"Hypokalemia causes flattened T waves and prominent U waves."
+},
+
+{
+clinicalStem:
+"A patient presents with crushing chest pain. ECG shows ST elevation in II, III and aVF.",
+
+image:
+"https://litfl.com/wp-content/uploads/2018/08/Inferior-STEMI.jpg",
+
+options:[
+"Anterior STEMI",
+"Inferior STEMI",
+"Pericarditis",
+"Posterior MI"
+],
+
+answer:1,
+
+explanation:
+"Inferior STEMI produces ST elevation in II, III and aVF."
+},
+
+{
+clinicalStem:
+"ECG shows ST elevation in V1-V4 with reciprocal inferior changes.",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/12_lead_ECG_of_anterior_STEMI.svg/1024px-12_lead_ECG_of_anterior_STEMI.svg.png",
+
+options:[
+"Posterior MI",
+"Inferior MI",
+"Anterior STEMI",
+"Pericarditis"
+],
+
+answer:2,
+
+explanation:
+"Anterior STEMI causes ST elevation in anterior precordial leads."
+},
+
+{
+clinicalStem:
+"A patient presents with broad notched R waves in lateral leads and wide QRS complexes.",
+
+image:
+"https://litfl.com/wp-content/uploads/2018/08/LBBB-ECG-2.jpg",
+
+options:[
+"RBBB",
+"LBBB",
+"LVH",
+"RVH"
+],
+
+answer:1,
+
+explanation:
+"LBBB produces broad QRS complexes and broad monophasic R waves in lateral leads."
+},
+
+{
+clinicalStem:
+"ECG shows RSR' pattern in V1 and broad S waves in lateral leads.",
+
+image:
+"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/RBBB_ECG.png/1024px-RBBB_ECG.png",
+
+options:[
+"LBBB",
+"RVH",
+"RBBB",
+"Posterior MI"
+],
+
+answer:2,
+
+explanation:
+"RBBB causes RSR' pattern in V1 with broad terminal S waves laterally."
 }
+
 
 ];
 
